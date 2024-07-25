@@ -13,8 +13,8 @@
                 window.dispatchEvent(event);
             };
         }
-        function openNewTab() {
-            const newTab = window.open(window.location.origin, '_blank');
+        function dispatchMagicLinkLogin() {
+            const newTab = window.open(window.location.origin, '_self');
 
             // Poll until the new tab is ready
             const interval = setInterval(() => {
@@ -32,8 +32,7 @@
         if (window.opener) {
             window.opener.postMessage(Object.fromEntries(hashParams.entries()), window.opener.location.origin);
         } else {
-            openNewTab();
-            window.close();
+            dispatchMagicLinkLogin();
         }
     </script>
     <span>

@@ -24,7 +24,6 @@
     }
 
     const getLoginUrl = (): string => {
-        console.log(window.opener)
         return keycloak.createLoginUrl({
             ...loginOptions,
            redirectUri: rewritePage('/login.html')
@@ -66,7 +65,6 @@
     }
 
     const authenticate = async (): Promise<boolean> => {
-        console.log('Authenticating...')
         keycloak = new Keycloak({
             url: url,
             realm: realm,
