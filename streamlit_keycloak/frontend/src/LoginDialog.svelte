@@ -1,80 +1,80 @@
 <script lang="ts">
-    import { createEventDispatcher, getContext } from 'svelte';
-    import type { LabelMap } from './localization';
+    import { createEventDispatcher, getContext } from 'svelte'
+    import type { LabelMap } from './localization'
 
-    export let loginUrl: string;
+    export let loginUrl: string
 
     const createLoginPopup = (): void => {
         if (currentPopup && !currentPopup.closed) {
-            currentPopup.focus();
-            return;
+            currentPopup.focus()
+            return
         }
 
-        openPopup(loginUrl);
-        showPopup = true;
-    };
+        openPopup(loginUrl)
+        showPopup = true
+    }
 
     const openPopup = (url: string): void => {
-        const width = 400;
-        const height = 600;
-        const left = window.screenX + (window.innerWidth - width) / 2;
-        const top = window.screenY + (window.innerHeight - height) / 2;
+        const width = 400
+        const height = 600
+        const left = window.screenX + (window.innerWidth - width) / 2
+        const top = window.screenY + (window.innerHeight - height) / 2
 
         currentPopup = window.open(
             url,
             'keycloak:authorize:popup',
             `left=${left},top=${top},width=${width},height=${height},resizable,scrollbars=yes,status=1`
-        );
-    };
+        )
+    }
 
     const runPopup = async (popup: Window): Promise<Record<string, string>> => {
         return new Promise((resolve, reject) => {
+            // Throw exception if popup is closed manually
             const popupTimer = setInterval(() => {
                 if (popup.closed) {
-                    window.removeEventListener('message', popupEventListener, false);
-                    clearInterval(popupTimer);
+                    window.removeEventListener(
+                        'message',
+                        popupEventListener,
+                        false
+                    )
+                    clearInterval(popupTimer)
 
-                    reject(new Error(labels.errorPopupClosed));
+                    reject(new Error(labels.errorPopupClosed))
                 }
-            }, 1000);
+            }, 1000)
 
+            // Wait for postMessage from popup if login is successful
             const popupEventListener = function (event: MessageEvent): void {
-                if (event.origin !== window.location.origin) return;
-                if (!Object.keys(event.data).includes('code')) return;
+                if (event.origin !== window.location.origin) return
+                if (!Object.keys(event.data).includes('code')) return
 
-                window.removeEventListener('message', popupEventListener, false);
-                clearInterval(popupTimer);
+                window.removeEventListener('message', popupEventListener, false)
+                clearInterval(popupTimer)
 
-                popup.close();
-                resolve(event.data);
-            };
+                popup.close()
+                resolve(event.data)
+            }
 
-            window.addEventListener('message', popupEventListener);
-        });
-    };
+            window.addEventListener('message', popupEventListener)
+        })
+    }
 
-    const authenticateWithPopup = async (popup: Window | null): Promise<void> => {
+    const authenticateWithPopup = async (
+        popup: Window | null
+    ): Promise<void> => {
         if (!popup) {
-            throw new Error(labels.errorNoPopup);
+            throw new Error(labels.errorNoPopup)
         }
 
-        await runPopup(popup);
-        dispatch('loggedin');
-    };
+        await runPopup(popup)
+        dispatch('loggedin')
+    }
 
-    const labels: LabelMap = getContext('localization');
-    const dispatch = createEventDispatcher();
+    const labels: LabelMap = getContext('localization')
+    const dispatch = createEventDispatcher()
 
-    let currentPopup: Window | null;
-    let showPopup = false;
-
-    // Handle messages from the child window when window.opener is not available
-    window.addEventListener('message', (event: MessageEvent) => {
-        if (event.origin !== window.location.origin) return;
-        if (!Object.keys(event.data).includes('code')) return;
-
-        dispatch('loggedin');
-    });
+    let currentPopup: Window | null
+    let showPopup = false
 </script>
 
 <div class="alert alert-warning" on:loggedin>
