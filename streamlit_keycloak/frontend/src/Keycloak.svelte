@@ -1,9 +1,7 @@
 <script lang="ts">
     import LoginDialog from './LoginDialog.svelte'
-
     import { afterUpdate, onMount, setContext } from 'svelte'
     import { Streamlit } from './streamlit'
-
     import Keycloak from 'keycloak-js'
     import type { KeycloakInitOptions, KeycloakLoginOptions } from 'keycloak-js'
     import { LabelMap, defaultLabels } from './localization'
@@ -49,7 +47,7 @@
         Streamlit.setComponentValue(value)
     }
 
-    // Set up Keycloak events listeners to send state to Steamlit
+    // Set up Keycloak events listeners to send state to Streamlit
     const setKeycloakEventListeners = (autoRefresh: boolean): void => {
         keycloak.onAuthError = async () => await setComponentValue()
         keycloak.onAuthRefreshError = async () => await setComponentValue()
@@ -78,6 +76,82 @@
         })
     }
 
+    // Adapted authentication with popup logic
+    const createLoginPopup = (): void => {
+        if (currentPopup && !currentPopup.closed) {
+            currentPopup.focus()
+            return
+        }
+
+        openPopup(getLoginUrl())
+        showPopup = true
+    }
+
+    const openPopup = (url: string): void => {
+        const width = 400
+        const height = 600
+        const left = window.screenX + (window.innerWidth - width) / 2
+        const top = window.screenY + (window.innerHeight - height) / 2
+
+        currentPopup = window.open(
+            url,
+            'keycloak:authorize:popup',
+            `left=${left},top=${top},width=${width},height=${height},resizable,scrollbars=yes,status=1`
+        )
+    }
+
+    const runPopup = async (popup: Window): Promise<Record<string, string>> => {
+        return new Promise((resolve, reject) => {
+            // Throw exception if popup is closed manually
+            const popupTimer = setInterval(() => {
+                if (popup.closed) {
+                    window.removeEventListener(
+                        'message',
+                        popupEventListener,
+                        false
+                    )
+                    clearInterval(popupTimer)
+
+                    reject(new Error(labels.errorPopupClosed))
+                }
+            }, 1000)
+
+            // Wait for postMessage from popup if login is successful
+            const popupEventListener = function (event: MessageEvent): void {
+                if (event.origin !== window.location.origin) return
+                if (!Object.keys(event.data).includes('code')) return
+
+                window.removeEventListener('message', popupEventListener, false)
+                clearInterval(popupTimer)
+
+                popup.close()
+                resolve(event.data)
+            }
+
+            window.addEventListener('message', popupEventListener)
+        })
+    }
+
+    const authenticateWithPopup = async (
+        popup: Window | null
+    ): Promise<void> => {
+        if (!popup) {
+            throw new Error(labels.errorNoPopup)
+        }
+
+        await runPopup(popup)
+        dispatch('loggedin')
+    }
+
+    const labels = {
+        ...defaultLabels,
+        ...customLabels,
+    }
+
+    const dispatch = createEventDispatcher()
+    let currentPopup: Window | null
+    let showPopup = false
+
     onMount((): void => {
         Streamlit.setFrameHeight()
     })
@@ -88,11 +162,6 @@
 
     let keycloak: Keycloak
     let clientHeight: number
-
-    const labels = {
-        ...defaultLabels,
-        ...customLabels,
-    }
 
     setContext('localization', labels)
 </script>
@@ -106,6 +175,17 @@
                     keycloak.login(loginOptions)
                 }}
             />
+            <div class="alert alert-warning">
+                <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
+                    <span>{labels.labelButton}</span>
+                </button>
+                <span class="mx-3">{labels.labelLogin}</span>
+                {#if showPopup}
+                    {#await authenticateWithPopup(currentPopup) catch error}
+                        <div class="alert alert-danger mt-3 mb-0">{error.message}</div>
+                    {/await}
+                {/if}
+            </div>
         {/if}
     {:catch exception}
         <div class="alert alert-danger">
