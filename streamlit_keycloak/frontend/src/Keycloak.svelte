@@ -62,6 +62,7 @@
     }
 
     const authenticate = async (): Promise<boolean> => {
+        console.log('Authenticating...')
         keycloak = new Keycloak({
             url: url,
             realm: realm,
