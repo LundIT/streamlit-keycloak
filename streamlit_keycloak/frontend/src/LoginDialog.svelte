@@ -77,34 +77,14 @@
     let showPopup = false
 </script>
 
-<style>
-    .login-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f8f9fa;
-        flex-direction: column;
-    }
-
-    .login-button {
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-    }
-
-    .error-message {
-        margin-top: 1rem;
-        color: #dc3545;
-    }
-</style>
-
-<div class="login-container" on:loggedin>
-    <button type="button" class="btn btn-primary login-button" on:click={createLoginPopup}>
-        {labels.labelButton}
+<div class="alert alert-warning" on:loggedin>
+    <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
+        <span>{labels.labelButton}</span>
     </button>
+    <span class="mx-3">{labels.labelLogin}</span>
     {#if showPopup}
         {#await authenticateWithPopup(currentPopup) catch error}
-            <div class="error-message">{error.message}</div>
+            <div class="alert alert-danger mt-3 mb-0">{error.message}</div>
         {/await}
     {/if}
 </div>
