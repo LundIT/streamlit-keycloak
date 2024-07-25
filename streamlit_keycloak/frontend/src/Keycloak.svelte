@@ -24,10 +24,7 @@
     }
 
     const getLoginUrl = (): string => {
-        return keycloak.createLoginUrl({
-            ...loginOptions,
-            redirectUri: loginOptions && "redirectUri" in loginOptions ? loginOptions.redirectUri : rewritePage('/login.html'),
-        })
+        return keycloak.createLoginUrl(loginOptions)
     }
 
     // Set up the response to Streamlit
