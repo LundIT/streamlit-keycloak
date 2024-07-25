@@ -26,7 +26,7 @@
     const getLoginUrl = (): string => {
         return keycloak.createLoginUrl({
             ...loginOptions,
-            redirectUri: "redirectUri" in loginOptions ? loginOptions.redirectUri : rewritePage('/login.html'),
+            redirectUri: loginOptions && "redirectUri" in loginOptions ? loginOptions.redirectUri : rewritePage('/login.html'),
         })
     }
 
