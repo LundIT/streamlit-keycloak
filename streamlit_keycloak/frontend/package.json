@@ -1,7 +1,6 @@
 {
   "name": "streamlit-keycloak",
   "version": "1.0.1",
-  "type": "module",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
@@ -11,12 +10,12 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-typescript": "^4.0.0",
     "@tsconfig/svelte": "^1.0.0",
-    "rollup": "^4.19.0",
+    "rollup": "^2.3.4",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^6.1.1",
-    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-terser": "^5.1.2",
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
@@ -26,7 +25,7 @@
   "dependencies": {
     "apache-arrow": "^0.17.0",
     "event-target-shim": "^5.0.1",
-    "keycloak-js": "^24.0.1",
+    "keycloak-js": "^20.0.1",
     "sirv-cli": "^1.0.0"
   }
 }
