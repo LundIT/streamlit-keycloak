@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-    </head> 
-    <body>
-        <script>            
-            const hashParams = new URLSearchParams(window.location.hash.substring(1))                        
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login Page</title>
+</head>
+<body>
+    <script>
+        // Simulate import statement for createEventDispatcher in vanilla JavaScript
+        function createEventDispatcher() {
+            return function(eventType) {
+                const event = new Event(eventType);
+                window.dispatchEvent(event);
+            };
+        }
+        function openNewWindow() {
+            const newWindow = window.open(window.location.href, 'NewWindow', 'width=600,height=400');
+
+            // Poll until the new window is ready
+            const interval = setInterval(() => {
+                if (newWindow.document.readyState === 'complete') {
+                    clearInterval(interval);
+
+                    // Dispatch 'loggedin' event in the new window
+                    const dispatch = createEventDispatcher().bind(newWindow);
+                    dispatch('loggedin');
+                }
+            }, 100);
+        }
+
+        const hashParams = new URLSearchParams(window.location.hash.substring(1))
+        if (window.opener){
             window.opener.postMessage(Object.fromEntries(hashParams.entries()), window.opener.location.origin)
-        </script>
-        <span>
-            You have successfully logged in. 
-            If you were redirected here, feel free to close this window and refresh the page to continue.
-        </span>
-    </body>
+        }else{
+            openNewWindow()
+            window.close();
+        }
+
+    </script>
+    <span>
+        You have successfully logged in.
+        If you were redirected here, feel free to close this window and refresh the page to continue.
+    </span>
+</body>
 </html>
