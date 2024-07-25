@@ -13,33 +13,32 @@
                 window.dispatchEvent(event);
             };
         }
-        function openNewWindow() {
-            const newWindow = window.open(window.location.href, 'NewWindow', 'width=600,height=400');
+        function openNewTab() {
+            const newTab = window.open(window.location.origin, '_blank');
 
-            // Poll until the new window is ready
+            // Poll until the new tab is ready
             const interval = setInterval(() => {
-                if (newWindow.document.readyState === 'complete') {
+                if (newTab.document.readyState === 'complete') {
                     clearInterval(interval);
 
-                    // Dispatch 'loggedin' event in the new window
-                    const dispatch = createEventDispatcher().bind(newWindow);
+                    // Dispatch 'loggedin' event in the new tab
+                    const dispatch = createEventDispatcher().bind(newTab);
                     dispatch('loggedin');
                 }
             }, 100);
         }
 
-        const hashParams = new URLSearchParams(window.location.hash.substring(1))
-        if (window.opener){
-            window.opener.postMessage(Object.fromEntries(hashParams.entries()), window.opener.location.origin)
-        }else{
-            openNewWindow()
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        if (window.opener) {
+            window.opener.postMessage(Object.fromEntries(hashParams.entries()), window.opener.location.origin);
+        } else {
+            openNewTab();
             window.close();
         }
-
     </script>
     <span>
         You have successfully logged in.
-        If you were redirected here, feel free to close this window and refresh the page to continue.
+        If you were redirected here, feel free to close this tab and refresh the page to continue.
     </span>
 </body>
 </html>
