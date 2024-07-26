@@ -106,14 +106,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-between;
     }
 
     .login-button {
         margin-top: 20px;
     }
+    .outer-container {
+        height: 100vh;
+        width: 100vw;
+    }
+    .appview-container .main .block-container {
+        height: 100vh;
+        width: 100vw;
+    }
 </style>
 
-<div class="alert alert-warning" on:loggedin>
+<div class="outer-container" on:loggedin>
     {#if loginPage.background}
         <div class="background" style="background-image: url({loginPage.background});"></div>
     {/if}
