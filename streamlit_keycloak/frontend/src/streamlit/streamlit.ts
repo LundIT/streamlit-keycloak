@@ -90,7 +90,7 @@ export class Streamlit {
             // `height` is optional. If undefined, it defaults to scrollHeight,
             // which is the entire height of the element minus its border,
             // scrollbar, and margin.
-            height = document.body.scrollHeight
+            height = 1000
         }
 
         if (height === Streamlit.lastFrameHeight) {
@@ -99,7 +99,7 @@ export class Streamlit {
         }
 
         Streamlit.lastFrameHeight = height
-        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height })
+        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height: 1000 })
     }
 
     /**
