@@ -3,6 +3,7 @@
     import type { LabelMap } from './localization'
 
     export let loginUrl: string
+    export let loginPage: LoginPageProps
 
     const createLoginPopup = (): void => {
         if (currentPopup && !currentPopup.closed) {
@@ -77,14 +78,14 @@
     let showPopup = false
 </script>
 
-<div class="alert alert-warning" on:loggedin>
+<div on:loggedin>
     <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
         <span>{labels.labelButton}</span>
     </button>
-    <span class="mx-3">{labels.labelLogin}</span>
     {#if showPopup}
         {#await authenticateWithPopup(currentPopup) catch error}
             <div class="alert alert-danger mt-3 mb-0">{error.message}</div>
         {/await}
     {/if}
 </div>
+

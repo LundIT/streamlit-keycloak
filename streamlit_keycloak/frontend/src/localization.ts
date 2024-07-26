@@ -6,6 +6,10 @@ export interface LabelMap {
     errorFatal?: string
 }
 
+export interface LoginPageProps {
+    background?: string
+    logo?: string
+}
 export const defaultLabels: LabelMap = {
     labelButton: 'Sign in',
     labelLogin: 'Please sign in to your account.',

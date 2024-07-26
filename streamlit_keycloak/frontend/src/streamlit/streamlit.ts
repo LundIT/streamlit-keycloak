@@ -86,20 +86,13 @@ export class Streamlit {
      * when it's first loaded, and any time it updates.
      */
     public static setFrameHeight = (height?: number): void => {
-        if (height === undefined) {
-            // `height` is optional. If undefined, it defaults to scrollHeight,
-            // which is the entire height of the element minus its border,
-            // scrollbar, and margin.
-            height = document.body.scrollHeight
-        }
-
         if (height === Streamlit.lastFrameHeight) {
             // Don't bother updating if our height hasn't changed.
             return
         }
-
+        console.log(height)
         Streamlit.lastFrameHeight = height
-        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height })
+        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height: height === 0 ? 1000 : height })
     }
 
     /**
@@ -118,6 +111,8 @@ export class Streamlit {
      * The value must be serializable into JSON.
      */
     public static setComponentValue = (value: any): void => {
+        console.log("setComponentValue")
+        console.log(value)
         Streamlit.sendBackMsg(ComponentMessageType.SET_COMPONENT_VALUE, {
             value,
         })
@@ -125,6 +120,7 @@ export class Streamlit {
 
     /** Receive a ForwardMsg from the Streamlit app */
     private static onMessageEvent = (event: MessageEvent): void => {
+        console.log(event.data)
         const type = event.data['type']
         switch (type) {
             case Streamlit.RENDER_EVENT:
