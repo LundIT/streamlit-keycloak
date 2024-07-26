@@ -99,7 +99,7 @@ export class Streamlit {
         }
 
         Streamlit.lastFrameHeight = height
-        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height })
+        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height: "100vh" })
     }
 
     /**
