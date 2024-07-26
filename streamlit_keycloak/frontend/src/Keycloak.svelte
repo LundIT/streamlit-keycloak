@@ -15,7 +15,6 @@
     export let initOptions: KeycloakInitOptions = {}
     export let loginOptions: KeycloakLoginOptions = {}
     export let customLabels: LabelMap = {}
-    export let loginPage: LoginPageProps = {background: "", logo: ""}
 
     const rewritePage = (newPage: string): string => {
         return (
@@ -101,51 +100,15 @@
     setContext('localization', labels)
 </script>
 
-<style>
-   .block-container {
-     padding-right: 0;
-     padding-left: 0;
-     padding-bottom: 0;
-     height: calc(100vh - 160px);
-   }
-    .background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        z-index: -1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10rem;
-    }
-
-    .logo {
-        max-width: 200px;
-    }
-
-</style>
-
-
 <div bind:clientHeight>
     {#await authenticate() then authenticated}
         {#if !authenticated}
-        <div class="background" style="background-image: url({loginPage.background});">
-            <div>
-                <img class="logo" src={loginPage.logo} alt="Logo" />
-            </div>
             <LoginDialog
                 loginUrl={getLoginUrl()}
                 on:loggedin={() => {
                     keycloak.login(loginOptions)
                 }}
-                loginPage={loginPage}
             />
-        </div>
         {/if}
     {:catch exception}
         <div class="alert alert-danger">
