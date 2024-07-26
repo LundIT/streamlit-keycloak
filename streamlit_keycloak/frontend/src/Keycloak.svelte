@@ -15,6 +15,7 @@
     export let initOptions: KeycloakInitOptions = {}
     export let loginOptions: KeycloakLoginOptions = {}
     export let customLabels: LabelMap = {}
+    export let loginPage: LoginPageProps = {}
 
     const rewritePage = (newPage: string): string => {
         return (
@@ -108,6 +109,7 @@
                 on:loggedin={() => {
                     keycloak.login(loginOptions)
                 }}
+                loginPage={loginPage}
             />
         {/if}
     {:catch exception}

@@ -3,6 +3,7 @@
     import type { LabelMap } from './localization'
 
     export let loginUrl: string
+    export let loginPage: LoginPageProps = {background: '', logo: ''}
 
     const createLoginPopup = (): void => {
         if (currentPopup && !currentPopup.closed) {
@@ -77,10 +78,53 @@
     let showPopup = false
 </script>
 
+<style>
+    .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+
+    .logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%);
+        max-width: 200px;
+    }
+
+    .login-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-button {
+        margin-top: 20px;
+    }
+</style>
+
 <div class="alert alert-warning" on:loggedin>
-    <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
-        <span>{labels.labelButton}</span>
-    </button>
+    {#if loginPage.background}
+        <div class="background" style="background-image: url({loginPage.background});"></div>
+    {/if}
+    <div class="login-container">
+        {#if loginPage.logo}
+            <img class="logo" src={loginPage.logo} alt="Logo" />
+        {/if}
+        <button type="button" class="btn btn-primary login-button" on:click={createLoginPopup}>
+            <span>{labels.labelButton}</span>
+        </button>
+    </div>
     <span class="mx-3">{labels.labelLogin}</span>
     {#if showPopup}
         {#await authenticateWithPopup(currentPopup) catch error}
