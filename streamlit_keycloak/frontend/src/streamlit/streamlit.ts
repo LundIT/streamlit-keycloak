@@ -90,7 +90,8 @@ export class Streamlit {
             // Don't bother updating if our height hasn't changed.
             return
         }
-
+        console.log("HERE")
+        console.log(height)
         Streamlit.lastFrameHeight = height
         Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height: height ?? 1000 })
     }
