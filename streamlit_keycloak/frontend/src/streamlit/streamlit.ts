@@ -111,6 +111,8 @@ export class Streamlit {
      * The value must be serializable into JSON.
      */
     public static setComponentValue = (value: any): void => {
+        console.log("setComponentValue")
+        console.log(value)
         Streamlit.sendBackMsg(ComponentMessageType.SET_COMPONENT_VALUE, {
             value,
         })
