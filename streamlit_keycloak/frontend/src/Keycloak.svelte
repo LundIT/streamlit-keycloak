@@ -83,7 +83,7 @@
     }
 
     onMount((): void => {
-        Streamlit.setFrameHeight("100vh")
+        Streamlit.setFrameHeight()
     })
 
     afterUpdate((): void => {
