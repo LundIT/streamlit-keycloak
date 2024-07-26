@@ -27,7 +27,7 @@
 
     /** The component's width. */
     let width: number
-    let height = "100vh"
+    let height = "100%"
 
     /**
      * True if the component should be disabled.
