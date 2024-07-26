@@ -27,6 +27,7 @@
 
     /** The component's width. */
     let width: number
+    let height = "100vh"
 
     /**
      * True if the component should be disabled.
@@ -63,12 +64,12 @@
     })
 </script>
 
-<svelte:window bind:innerWidth={width} />
+<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 <!-- Don't render until we've gotten our first RENDER_EVENT from Streamlit. -->
 {#if renderData}
     {#if spreadArgs}
-        <svelte:component this={component} {...args} {disabled} {width} />
+        <svelte:component this={component} {...args} {disabled} {width} {height}/>
     {:else}
-        <svelte:component this={component} {args} {disabled} {width} />
+        <svelte:component this={component} {args} {disabled} {width} {height}/>
     {/if}
 {/if}
