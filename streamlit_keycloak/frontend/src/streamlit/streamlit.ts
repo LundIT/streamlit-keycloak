@@ -118,6 +118,7 @@ export class Streamlit {
 
     /** Receive a ForwardMsg from the Streamlit app */
     private static onMessageEvent = (event: MessageEvent): void => {
+        console.log(event.data)
         const type = event.data['type']
         switch (type) {
             case Streamlit.RENDER_EVENT:
