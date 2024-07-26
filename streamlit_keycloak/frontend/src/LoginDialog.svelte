@@ -92,9 +92,6 @@
 
     .logo {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -60%);
         max-width: 200px;
     }
 
@@ -106,19 +103,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
     }
 
-    .login-button {
-        margin-top: 20px;
-    }
-    .outer-container {
-        height: 100vh;
-        width: 100vw;
-    }
 </style>
 
-<div class="outer-container" on:loggedin>
+<div on:loggedin>
     {#if loginPage.background}
         <div class="background" style="background-image: url({loginPage.background});"></div>
     {/if}
@@ -130,7 +120,6 @@
             <span>{labels.labelButton}</span>
         </button>
     </div>
-    <span class="mx-3">{labels.labelLogin}</span>
     {#if showPopup}
         {#await authenticateWithPopup(currentPopup) catch error}
             <div class="alert alert-danger mt-3 mb-0">{error.message}</div>

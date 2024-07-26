@@ -86,20 +86,13 @@ export class Streamlit {
      * when it's first loaded, and any time it updates.
      */
     public static setFrameHeight = (height?: number): void => {
-        if (height === undefined) {
-            // `height` is optional. If undefined, it defaults to scrollHeight,
-            // which is the entire height of the element minus its border,
-            // scrollbar, and margin.
-            height = 1000
-        }
-
         if (height === Streamlit.lastFrameHeight) {
             // Don't bother updating if our height hasn't changed.
             return
         }
 
         Streamlit.lastFrameHeight = height
-        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height: 1000 })
+        Streamlit.sendBackMsg(ComponentMessageType.SET_FRAME_HEIGHT, { height: height ?? 1000 })
     }
 
     /**
