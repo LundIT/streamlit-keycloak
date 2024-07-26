@@ -116,10 +116,6 @@
         height: 100vh;
         width: 100vw;
     }
-    .appview-container .main .block-container {
-        height: 100vh;
-        width: 100vw;
-    }
 </style>
 
 <div class="outer-container" on:loggedin>
