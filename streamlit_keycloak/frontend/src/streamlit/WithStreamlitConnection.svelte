@@ -67,8 +67,8 @@
 <!-- Don't render until we've gotten our first RENDER_EVENT from Streamlit. -->
 {#if renderData}
     {#if spreadArgs}
-        <svelte:component this={component} {...args} {disabled} {width} />
+        <svelte:component this={component} {...args} {disabled} {width}/>
     {:else}
-        <svelte:component this={component} {args} {disabled} {width} />
+        <svelte:component this={component} {args} {disabled} {width}/>
     {/if}
 {/if}

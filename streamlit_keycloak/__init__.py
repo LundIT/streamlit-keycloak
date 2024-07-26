@@ -64,6 +64,7 @@ def login(
     custom_labels: Optional[dict] = None,
     key: Optional[str] = None,
     login_options: Optional[dict] = None,
+    loginPage: Optional[dict] = None,
 ) -> Keycloak:
     """Creates a new Keycloak component and authenticates.
 
@@ -114,6 +115,7 @@ def login(
         autoRefresh=auto_refresh,
         initOptions=init_options,
         customLabels=custom_labels,
+        loginPage=loginPage,
         key=key,
         default=default,
         loginOptions=login_options,
