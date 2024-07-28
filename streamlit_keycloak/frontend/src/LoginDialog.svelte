@@ -77,7 +77,7 @@
     let showPopup = false
 </script>
 
-<div on:loggedin>
+<div on:loggedin style="text-align: center;">
     <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
         <span>{labels.labelButton}</span>
     </button>
