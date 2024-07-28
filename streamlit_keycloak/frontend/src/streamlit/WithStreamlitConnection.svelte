@@ -64,11 +64,45 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<!-- Don't render until we've gotten our first RENDER_EVENT from Streamlit. -->
+
+<!-- Conditionally render the component only if renderData is available -->
 {#if renderData}
+    <!-- Determine how to pass the args to the component based on spreadArgs -->
     {#if spreadArgs}
-        <svelte:component this={component} {...args} {disabled} {width} />
+        <!-- Spread args as individual props along with disabled, width, and the specified styles -->
+        <svelte:component
+            this={component}
+            {...args}
+            {disabled}
+            {width}
+            style="
+                width: fit-content;
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                text-align: center;
+            "
+        />
     {:else}
-        <svelte:component this={component} {args} {disabled} {width} />
+        <!-- Pass args as a single object along with disabled, width, and the specified styles -->
+        <svelte:component
+            this={component}
+            {args}
+            {disabled}
+            {width}
+            style="
+                width: fit-content;
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                text-align: center;
+            "
+        />
     {/if}
 {/if}
