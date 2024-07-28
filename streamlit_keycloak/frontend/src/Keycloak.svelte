@@ -100,7 +100,7 @@
     setContext('localization', labels)
 </script>
 
-<div bind:clientHeight>
+<div bind:clientHeight class="test-iframe">
     {#await authenticate() then authenticated}
         {#if !authenticated}
             <LoginDialog
