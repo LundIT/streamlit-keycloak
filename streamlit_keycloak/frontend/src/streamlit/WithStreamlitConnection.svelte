@@ -35,6 +35,9 @@
      */
     let disabled: boolean
 
+    // Loading state
+    let isLoading: boolean = true
+
     /**
      * Streamlit is telling this component to redraw.
      * We save the render data in State, so that it can be passed to the
@@ -46,6 +49,7 @@
         renderData = (event as CustomEvent<RenderData>).detail
         args = renderData.args
         disabled = renderData.disabled
+        isLoading = false
     }
 
     onMount((): void => {
@@ -65,11 +69,26 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<!-- Don't render until we've gotten our first RENDER_EVENT from Streamlit. -->
-{#if renderData}
+<!-- Loading Spinner -->
+{#if isLoading}
+    <div class="spinner">Loading...</div>
+{/if}
+
+<!-- Render Component -->
+{#if !isLoading && renderData}
     {#if spreadArgs}
         <svelte:component this={component} {...args} {disabled} {width} />
     {:else}
         <svelte:component this={component} {args} {disabled} {width} />
     {/if}
 {/if}
+
+<style>
+    .spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 1.5em;
+    }
+</style>
