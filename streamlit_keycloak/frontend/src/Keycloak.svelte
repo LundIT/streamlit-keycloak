@@ -76,13 +76,13 @@
 
         setKeycloakEventListeners(autoRefresh)
 
+        isAuthenticating = false
         // Check if user is already logged in
         return keycloak.init({
             ...initOptions,
             onLoad: 'check-sso',
             silentCheckSsoRedirectUri: rewritePage('/check-sso.html'),
         })
-        isAuthenticating = false
     }
 
     onMount((): void => {
@@ -105,10 +105,10 @@
 </script>
 
 <div bind:clientHeight class="test-iframe">
-    {#await authenticate() then authenticated}
-        {#if isAuthenticating}
+    {#if isAuthenticating}
             <div class="alert alert-info">Loading</div>
-        {/if}
+    {/if}
+    {#await authenticate() then authenticated}
         {#if !authenticated && !isAuthenticating}
             <div>
             <p>{labels.labelLogin}</p>
