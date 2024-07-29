@@ -51,7 +51,6 @@
             value = { authenticated: false }
         }
 
-        isAuthenticating = false
         Streamlit.setComponentValue(value)
 
     }
@@ -78,6 +77,7 @@
 
         setKeycloakEventListeners(autoRefresh)
         // Check if user is already logged in
+        isAuthenticating = false
         return keycloak.init({
             ...initOptions,
             onLoad: 'check-sso',
