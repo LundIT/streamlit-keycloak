@@ -104,9 +104,11 @@
     setContext('localization', labels)
 </script>
 
-<div bind:clientHeight class="test-iframe">
+<div bind:clientHeight>
     {#if isAuthenticating}
-        <p>Loading...</p>
+        <div class="spinner-border" role="status">
+             <span class="sr-only">Loading...</span>
+        </div>
     {/if}
     {#await authenticate() then authenticated}
         {#if !authenticated}
@@ -118,8 +120,8 @@
                 }}
             />
         {:else}
-            <div class="alert alert-success">
-                <span>Test</span>
+            <div class="alert alert-success" style="text-align: center;">
+                <span>You are being redirected...</span>
             </div>
         {/if}
     {:catch exception}
