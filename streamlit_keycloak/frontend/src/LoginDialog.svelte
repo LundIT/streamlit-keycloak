@@ -4,6 +4,8 @@
 
     export let loginUrl: string
 
+    let isAuthenticating = false
+
     const createLoginPopup = (): void => {
         if (currentPopup && !currentPopup.closed) {
             currentPopup.focus()
@@ -12,6 +14,7 @@
 
         openPopup(loginUrl)
         showPopup = true
+        isAuthenticating = true
     }
 
     const openPopup = (url: string): void => {
@@ -53,6 +56,7 @@
 
                 popup.close()
                 resolve(event.data)
+                isAuthenticating = false
             }
 
             window.addEventListener('message', popupEventListener)
@@ -78,9 +82,13 @@
 </script>
 
 <div on:loggedin style="text-align: center;">
-    <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
-        <span>{labels.labelButton}</span>
-    </button>
+    {#if isAuthenticating}
+        <div class="alert alert-info">Loading...</div>
+    {:else}
+        <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
+            <span>{labels.labelButton}</span>
+        </button>
+    {/if}
     {#if showPopup}
         {#await authenticateWithPopup(currentPopup) catch error}
             <div class="alert alert-danger mt-3 mb-0">{error.message}</div>
