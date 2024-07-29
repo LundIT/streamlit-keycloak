@@ -42,6 +42,7 @@
      */
     const onRenderEvent = (event: Event): void => {
         // Update our state with the newest render data
+        console.log((event as CustomEvent<RenderData>))
         renderData = (event as CustomEvent<RenderData>).detail
         args = renderData.args
         disabled = renderData.disabled
@@ -64,7 +65,6 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<div>Waiting for Streamlit...</div>
 <!-- Don't render until we've gotten our first RENDER_EVENT from Streamlit. -->
 {#if renderData}
     {#if spreadArgs}
@@ -72,6 +72,4 @@
     {:else}
         <svelte:component this={component} {args} {disabled} {width} />
     {/if}
-{:else}
-    <div>Waiting for Streamlit...</div>
 {/if}
