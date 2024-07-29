@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount, afterUpdate, onDestroy } from 'svelte'
+    import { onMount, onDestroy } from 'svelte'
     import { Streamlit } from './streamlit'
     import type { RenderData } from './streamlit'
 
@@ -19,7 +19,7 @@
     // State
     let renderData: RenderData
 
-    //  Props passed to custom Streamlit components.
+    // Props passed to custom Streamlit components.
     /** Named dictionary of arguments passed from Python.
      *  Arguments will be passed directly if `spreadArgs=true`
      */
@@ -49,7 +49,7 @@
         renderData = (event as CustomEvent<RenderData>).detail
         args = renderData.args
         disabled = renderData.disabled
-        isLoading = false
+        isLoading = false // Set loading to false once data is received
     }
 
     onMount((): void => {
@@ -69,13 +69,12 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<!-- Loading Spinner -->
+
+<!-- Show Loading Spinner until the component is ready -->
 {#if isLoading}
     <div class="spinner">Loading...</div>
-{/if}
-
-<!-- Render Component -->
-{#if !isLoading && renderData}
+{:else if renderData}
+    <!-- Render Component -->
     {#if spreadArgs}
         <svelte:component this={component} {...args} {disabled} {width} />
     {:else}
