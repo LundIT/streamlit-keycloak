@@ -68,7 +68,6 @@
     }
 
     const authenticate = async (): Promise<boolean> => {
-        isAuthenticating = true
         keycloak = new Keycloak({
             url: url,
             realm: realm,
@@ -77,7 +76,6 @@
 
         setKeycloakEventListeners(autoRefresh)
         // Check if user is already logged in
-        isAuthenticating = false
         return keycloak.init({
             ...initOptions,
             onLoad: 'check-sso',
@@ -105,7 +103,7 @@
 </script>
 
 <div bind:clientHeight style="text-align: center;">
-    {#if !isAuthenticating}
+    {#if !isAuthenticating && authenticated}
         <div class="spinner-border" role="status">
             <p>Test</p>
              <span class="sr-only">Loading...</span>
