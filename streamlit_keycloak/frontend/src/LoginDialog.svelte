@@ -3,7 +3,8 @@
     import type { LabelMap } from './localization'
 
     export let loginUrl: string
-    export let isAuthenticating: boolean
+
+    let isAuthenticating: boolean
 
     const createLoginPopup = (): void => {
         if (currentPopup && !currentPopup.closed) {

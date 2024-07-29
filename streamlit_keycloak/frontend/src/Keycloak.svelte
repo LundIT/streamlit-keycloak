@@ -114,7 +114,6 @@
         {#if !authenticated}
             <LoginDialog
                 loginUrl={getLoginUrl()}
-                isAuthenticating={isAuthenticating}
                 on:loggedin={() => {
                     keycloak.login(loginOptions)
                 }}
