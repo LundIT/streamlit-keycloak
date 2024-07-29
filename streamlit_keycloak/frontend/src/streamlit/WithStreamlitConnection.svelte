@@ -71,4 +71,6 @@
     {:else}
         <svelte:component this={component} {args} {disabled} {width} />
     {/if}
+{:else}
+    <div>Waiting for Streamlit...</div>
 {/if}
