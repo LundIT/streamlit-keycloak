@@ -35,6 +35,7 @@
     // Set up the response to Streamlit
     const setComponentValue = async (): Promise<void> => {
         if (!keycloak.userInfo && keycloak.authenticated) {
+            isAuthenticating = true
             await keycloak.loadUserInfo()
         }
 
@@ -52,6 +53,7 @@
         }
 
         Streamlit.setComponentValue(value)
+        isAuthenticating = false
     }
 
     // Set up Keycloak events listeners to send state to Steamlit
@@ -118,10 +120,6 @@
                     isAuthenticating = false
                 }}
             />
-        {:else}
-            <div class="alert alert-success">
-                <span>Loading...</span>
-            </div>
         {/if}
     {:catch exception}
         <div class="alert alert-danger">
