@@ -78,10 +78,12 @@
 </script>
 
 <div on:loggedin style="text-align: center;">
-    <span class="mx-3">{labels.labelLogin}</span>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-around;">
+    <p class="mx-3">{labels.labelLogin}</p>
     <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
         <span>{labels.labelButton}</span>
     </button>
+    </div>
     {#if showPopup}
         <p>Loading...</p>
         {#await authenticateWithPopup(currentPopup) catch error}
