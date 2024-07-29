@@ -111,11 +111,15 @@
         {#if !authenticated}
             <LoginDialog
                 loginUrl={getLoginUrl()}
-                isAuthenticating={false}
+                isAuthenticating={isAuthenticating}
                 on:loggedin={() => {
                     keycloak.login(loginOptions)
                 }}
             />
+        {:else}
+            <div class="alert alert-success">
+                <span>Loading...</span>
+            </div>
         {/if}
     {:catch exception}
         <div class="alert alert-danger">
