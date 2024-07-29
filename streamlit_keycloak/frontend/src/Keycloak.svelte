@@ -68,7 +68,6 @@
     }
 
     const authenticate = async (): Promise<boolean> => {
-        isAuthenticating = true
         keycloak = new Keycloak({
             url: url,
             realm: realm,
@@ -115,6 +114,7 @@
             <LoginDialog
                 loginUrl={getLoginUrl()}
                 on:loggedin={() => {
+                    isAuthenticating = true
                     keycloak.login(loginOptions)
                 }}
             />
