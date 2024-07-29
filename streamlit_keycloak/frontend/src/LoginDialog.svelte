@@ -81,7 +81,9 @@
 
 <div on:loggedin style="text-align: center;">
     {#if isAuthenticating}
-        <div class="alert alert-info">Loading...</div>
+        <div class="spinner-border" role="status">
+             <span class="sr-only">Loading...</span>
+        </div>
     {:else}
         <div>
             <p>{labels.labelLogin}</p>

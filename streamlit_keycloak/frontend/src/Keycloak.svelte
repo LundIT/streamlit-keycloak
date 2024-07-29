@@ -76,7 +76,6 @@
         })
 
         setKeycloakEventListeners(autoRefresh)
-        isAuthenticating = false
         // Check if user is already logged in
         return keycloak.init({
             ...initOptions,
