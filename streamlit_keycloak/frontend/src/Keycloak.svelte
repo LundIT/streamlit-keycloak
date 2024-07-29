@@ -104,6 +104,9 @@
 </script>
 
 <div bind:clientHeight class="test-iframe">
+    {#if isAuthenticating}
+        <p>Loading...</p>
+    {/if}
     {#await authenticate() then authenticated}
         {#if !authenticated}
             <LoginDialog
