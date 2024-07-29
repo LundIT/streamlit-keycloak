@@ -35,7 +35,6 @@
     // Set up the response to Streamlit
     const setComponentValue = async (): Promise<void> => {
         if (!keycloak.userInfo && keycloak.authenticated) {
-            isAuthenticating = true
             await keycloak.loadUserInfo()
         }
 
@@ -114,9 +113,8 @@
             <LoginDialog
                 loginUrl={getLoginUrl()}
                 isAuthenticating={isAuthenticating}
-                on:loggedin={async () => {
-                    await keycloak.login(loginOptions)
-                    isAuthenticating = false
+                on:loggedin={() => {
+                    keycloak.login(loginOptions)
                 }}
             />
         {/if}

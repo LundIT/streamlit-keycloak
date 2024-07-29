@@ -64,6 +64,7 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
+<div>Waiting for Streamlit...</div>
 <!-- Don't render until we've gotten our first RENDER_EVENT from Streamlit. -->
 {#if renderData}
     {#if spreadArgs}
