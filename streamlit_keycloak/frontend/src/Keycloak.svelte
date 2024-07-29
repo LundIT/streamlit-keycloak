@@ -105,7 +105,7 @@
 </script>
 
 <div bind:clientHeight style="text-align: center;">
-    {#if isAuthenticating}
+    {#if !isAuthenticating}
         <div class="spinner-border" role="status">
             <p>Test</p>
              <span class="sr-only">Loading...</span>
