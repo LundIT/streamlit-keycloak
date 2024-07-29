@@ -51,8 +51,9 @@
             value = { authenticated: false }
         }
 
-        Streamlit.setComponentValue(value)
         isAuthenticating = false
+        Streamlit.setComponentValue(value)
+
     }
 
     // Set up Keycloak events listeners to send state to Steamlit
@@ -103,9 +104,10 @@
     setContext('localization', labels)
 </script>
 
-<div bind:clientHeight>
+<div bind:clientHeight style="text-align: center;">
     {#if isAuthenticating}
         <div class="spinner-border" role="status">
+            <p>Test</p>
              <span class="sr-only">Loading...</span>
         </div>
     {/if}
