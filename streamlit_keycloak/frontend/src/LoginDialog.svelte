@@ -70,7 +70,6 @@
 
         await runPopup(popup)
         dispatch('loggedin')
-        isAuthenticating = false
     }
 
     const labels: LabelMap = getContext('localization')
