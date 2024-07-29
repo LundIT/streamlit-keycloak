@@ -73,13 +73,6 @@
 
         setKeycloakEventListeners(autoRefresh)
 
-        const value = {
-                authenticated: false,
-                isAuthenticating: true
-            }
-
-        Streamlit.setComponentValue(value)
-
         // Check if user is already logged in
         return keycloak.init({
             ...initOptions,
