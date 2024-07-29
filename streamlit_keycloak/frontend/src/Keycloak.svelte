@@ -117,6 +117,10 @@
                     keycloak.login(loginOptions)
                 }}
             />
+        {:else}
+            <div class="alert alert-success">
+                <span>Test</span>
+            </div>
         {/if}
     {:catch exception}
         <div class="alert alert-danger">
