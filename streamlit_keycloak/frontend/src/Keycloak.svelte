@@ -16,6 +16,8 @@
     export let loginOptions: KeycloakLoginOptions = {}
     export let customLabels: LabelMap = {}
 
+    let isAuthenticating = false
+
     const rewritePage = (newPage: string): string => {
         return (
             window.location.origin +
@@ -65,6 +67,7 @@
     }
 
     const authenticate = async (): Promise<boolean> => {
+        isAuthenticating = true
         keycloak = new Keycloak({
             url: url,
             realm: realm,
@@ -79,6 +82,7 @@
             onLoad: 'check-sso',
             silentCheckSsoRedirectUri: rewritePage('/check-sso.html'),
         })
+        isAuthenticating = false
     }
 
     onMount((): void => {
@@ -102,13 +106,19 @@
 
 <div bind:clientHeight class="test-iframe">
     {#await authenticate() then authenticated}
-        {#if !authenticated}
+        {#if isAuthenticating}
+            <div class="alert alert-info">Loading</div>
+        {/if}
+        {#if !authenticated && !isAuthenticating}
+            <div>
+            <p>{labels.labelLogin}</p>
             <LoginDialog
                 loginUrl={getLoginUrl()}
                 on:loggedin={() => {
                     keycloak.login(loginOptions)
                 }}
             />
+            </div>
         {/if}
     {:catch exception}
         <div class="alert alert-danger">
