@@ -16,6 +16,8 @@
     export let loginOptions: KeycloakLoginOptions = {}
     export let customLabels: LabelMap = {}
 
+    let isAuthenticating = false
+
     const rewritePage = (newPage: string): string => {
         return (
             window.location.origin +
@@ -65,6 +67,7 @@
     }
 
     const authenticate = async (): Promise<boolean> => {
+        isAuthenticating = true
         keycloak = new Keycloak({
             url: url,
             realm: realm,
@@ -72,7 +75,7 @@
         })
 
         setKeycloakEventListeners(autoRefresh)
-
+        isAuthenticating = false
         // Check if user is already logged in
         return keycloak.init({
             ...initOptions,
@@ -105,6 +108,7 @@
         {#if !authenticated}
             <LoginDialog
                 loginUrl={getLoginUrl()}
+                isAuthenticating={false}
                 on:loggedin={() => {
                     keycloak.login(loginOptions)
                 }}

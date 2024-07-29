@@ -3,8 +3,7 @@
     import type { LabelMap } from './localization'
 
     export let loginUrl: string
-
-    let isAuthenticating = false
+    export let isAuthenticating: boolean
 
     const createLoginPopup = (): void => {
         if (currentPopup && !currentPopup.closed) {
@@ -56,7 +55,6 @@
 
                 popup.close()
                 resolve(event.data)
-                isAuthenticating = false
             }
 
             window.addEventListener('message', popupEventListener)
@@ -72,6 +70,7 @@
 
         await runPopup(popup)
         dispatch('loggedin')
+        isAuthenticating = false
     }
 
     const labels: LabelMap = getContext('localization')
@@ -85,9 +84,12 @@
     {#if isAuthenticating}
         <div class="alert alert-info">Loading...</div>
     {:else}
-        <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
-            <span>{labels.labelButton}</span>
-        </button>
+        <div>
+            <p>{labels.labelLogin}</p>
+            <button type="button" class="btn btn-primary" on:click={createLoginPopup}>
+                <span>{labels.labelButton}</span>
+            </button>
+        </div>
     {/if}
     {#if showPopup}
         {#await authenticateWithPopup(currentPopup) catch error}
