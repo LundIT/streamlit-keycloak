@@ -103,18 +103,16 @@
 </script>
 
 <div bind:clientHeight style="text-align: center;">
-    {#if !isAuthenticating}
+    {#await authenticate()}
         <div class="spinner-border" role="status">
             <p>Test</p>
              <span class="sr-only">Loading...</span>
         </div>
-    {/if}
-    {#await authenticate() then authenticated}
+    {:then authenticated}
         {#if !authenticated}
             <LoginDialog
                 loginUrl={getLoginUrl()}
                 on:loggedin={() => {
-                    isAuthenticating = true
                     keycloak.login(loginOptions)
                 }}
             />
