@@ -16,8 +16,6 @@
     export let loginOptions: KeycloakLoginOptions = {}
     export let customLabels: LabelMap = {}
 
-    let isAuthenticating = false
-
     const rewritePage = (newPage: string): string => {
         return (
             window.location.origin +
