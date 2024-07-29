@@ -113,7 +113,9 @@
                 loginUrl={getLoginUrl()}
                 isAuthenticating={isAuthenticating}
                 on:loggedin={() => {
+                    isAuthenticating = true
                     keycloak.login(loginOptions)
+                    isAuthenticating = false
                 }}
             />
         {:else}
