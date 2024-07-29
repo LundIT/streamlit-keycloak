@@ -114,9 +114,8 @@
             <LoginDialog
                 loginUrl={getLoginUrl()}
                 isAuthenticating={isAuthenticating}
-                on:loggedin={() => {
-                    isAuthenticating = true
-                    keycloak.login(loginOptions)
+                on:loggedin={async () => {
+                    await keycloak.login(loginOptions)
                     isAuthenticating = false
                 }}
             />
